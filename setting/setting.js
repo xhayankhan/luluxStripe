@@ -13,7 +13,7 @@ const {
   FieldValue,
 } = require("firebase-admin/firestore");
 
-const serviceAccount = require("../hailo-a246d-firebase-adminsdk-dfkj7-d7a4b0da4b.json");
+const serviceAccount = require("../lulux-b7e7a-firebase-adminsdk-c5zet-13c3d17c8f.json");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, path.join(__dirname, "..", "/uploads/"));

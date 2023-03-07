@@ -15,14 +15,14 @@ router.post("/", async (req, res) => {
         object: "card",
         limit: 1,
       });
-      const cityRef = db.collection("careTakers").doc(uid);
+      const cityRef = db.collection("users").doc(uid);
 
       try {
-        const res = await cityRef.update({
+        const resp = await cityRef.update({
           connectAccountId: account.id,
           connectAccountCard: cards.data[0].id,
         });
-        res.status(200).json({ message: "Done" });
+        resp.status(200).json({ message: "Done" });
       } catch (e) {
         res.status(400).json({ error: "Session Expired. Try again!" });
       }
