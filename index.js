@@ -4,6 +4,7 @@ const { resolve } = require("path");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const path = require("path");
 const app = express();
 
 const router = express.Router();
@@ -24,7 +25,7 @@ const getCustomerCardsRoute = require("./routes/getCustomerCardsRoute/getCustome
 
 const createdAccountRoute = require("./routes/createdAccountRoute/createdAccount.route");
 
-const accountRoute = require("./routes/updateAccountRoute/account.route")
+const accountRoute = require("./routes/updateAccountRoute/account.route");
 
 //middlewares
 app.use(express.static(process.env.STATIC_DIR));
@@ -48,13 +49,14 @@ router.use("/get-customer-cards", getCustomerCardsRoute);
 router.use("/withdraw", withdrawRoute);
 router.use("/accountCreated", createdAccountRoute);
 router.use("/card", accountRoute);
+// Add this line with other routes
+router.use("/account-success", (req, res) => {
+  const file = path.join("public", "success.html");
+  res.sendFile(file);
+});
+
 //server
 app.use("/api", router);
-
-app.get("/", (req, res) => {
-  const path = resolve(process.env.STATIC_DIR + "/index.html");
-  res.sendFile(path);
-});
 
 const port = process.env.PORT || 4242;
 app.listen(port, () => console.log(`Node server listening on port ${port}!`));

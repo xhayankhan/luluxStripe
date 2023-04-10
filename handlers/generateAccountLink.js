@@ -4,8 +4,8 @@ function generateAccountLink(accountID, origin, uid) {
     .create({
       type: "account_onboarding",
       account: accountID,
-      refresh_url: `${origin}/api/onboard-user/refresh`,
-      return_url: `${origin}/success.html?accID=${accountID}&uid=${uid}`,
+      refresh_url: `${origin}/api/onboard-user/refresh?uid=${uid}`,
+      return_url: `${origin}/api/account-success?accID=${accountID}&uid=${uid}`,
     })
     .then((link) => link.url);
 }
