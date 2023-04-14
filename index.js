@@ -1,11 +1,16 @@
 require("dotenv").config();
 const express = require("express");
-const { resolve } = require("path");
+const fs = require("fs");
 const session = require("express-session");
-const bodyParser = require("body-parser");
+const https = require("https");
 const cors = require("cors");
 const path = require("path");
 const app = express();
+
+const credentials = {
+  key: privateKey,
+  cert: certificate,
+};
 
 const router = express.Router();
 
@@ -38,6 +43,12 @@ app.use(
 );
 app.use(cors());
 app.use(express.json());
+app.use((req, res, next) => {
+  if (!req.secure) {
+    return res.redirect(["https://", req.get("Host"), req.url].join(""));
+  }
+  next();
+});
 
 //routes
 router.use("/onboard-user", onboardUserRoute);
@@ -51,12 +62,14 @@ router.use("/accountCreated", createdAccountRoute);
 router.use("/card", accountRoute);
 // Add this line with other routes
 router.use("/account-success", (req, res) => {
-  const file = path.join("public", "success.html");
+  const file = path.join(__dirname, "public", "success.html");
   res.sendFile(file);
 });
 
 //server
 app.use("/api", router);
-
 const port = process.env.PORT || 4242;
-app.listen(port, () => console.log(`Node server listening on port ${port}!`));
+const httpsServer = https.createServer(credentials, app);
+httpsServer.listen(port, () =>
+  console.log(`Node server listening on port ${port}!`)
+);
