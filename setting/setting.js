@@ -1,5 +1,7 @@
 require("dotenv").config();
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")(
+  "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"
+);
 const multer = require("multer");
 const path = require("path");
 const {

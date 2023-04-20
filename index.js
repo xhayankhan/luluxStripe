@@ -6,6 +6,14 @@ const https = require("https");
 const cors = require("cors");
 const path = require("path");
 const app = express();
+const privateKey = fs.readFileSync(
+  "/etc/letsencrypt/live/api.lulux.store/privkey.pem",
+  "utf8"
+);
+const certificate = fs.readFileSync(
+  "/etc/letsencrypt/live/api.lulux.store/fullchain.pem",
+  "utf8"
+);
 
 const credentials = {
   key: privateKey,
@@ -33,10 +41,10 @@ const createdAccountRoute = require("./routes/createdAccountRoute/createdAccount
 const accountRoute = require("./routes/updateAccountRoute/account.route");
 
 //middlewares
-app.use(express.static(process.env.STATIC_DIR));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(
   session({
-    secret: process.env.SESSION_KEY,
+    secret: "asdjnanswn12sadmckl312opadkas3423231mdczxmasd",
     resave: false,
     saveUninitialized: true,
   })
@@ -68,7 +76,7 @@ router.use("/account-success", (req, res) => {
 
 //server
 app.use("/api", router);
-const port = process.env.PORT || 4242;
+const port = 443;
 const httpsServer = https.createServer(credentials, app);
 httpsServer.listen(port, () =>
   console.log(`Node server listening on port ${port}!`)

@@ -6,7 +6,7 @@ const httpGetOnBoardAccountRefresh = async (req, res) => {
   }
   try {
     const { accountID, uID } = req.session;
-    const origin = process.env.ORIGIN;
+    const origin = "https://api.lulux.store/api";
     console.log("iwasnthere" + origin);
     const accountLinkURL = await generateAccountLink(accountID, origin, uID);
     res.redirect(accountLinkURL);

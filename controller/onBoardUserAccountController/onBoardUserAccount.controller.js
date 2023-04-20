@@ -6,7 +6,7 @@ const httpPostOnBoardAccount = async (req, res) => {
     req.session.accountID = account.id;
     req.session.uID = req.body.uid;
 
-    const origin = process.env.ORIGIN;
+    const origin = "https://api.lulux.store/api";
     console.log("iwashere " + origin);
 
     const accountLinkURL = await generateAccountLink(
